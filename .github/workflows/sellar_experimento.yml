@@ -1,0 +1,32 @@
+name: Sellar Experimento Feel
+on:
+  repository_dispatch:
+    types: [nuevo_registro]
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Acceder al repositorio
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.FEEL_TOKEN }}
+
+      - name: Mezclar nuevo registro en el historial
+        run: |
+          # 1. Crear un archivo temporal con los datos recibidos
+          echo '${{ github.event.client_payload.data }}' > entry.json
+          
+          # 2. Usar 'jq' para combinar el historial existente con la nueva entrada
+          # Esto asegura que el archivo mantenga el formato [{}, {}, ...]
+          jq -s '.[0] + [.[1]]' data.json entry.json > temp.json
+          mv temp.json data.json
+          rm entry.json
+
+      - name: Guardar cambios en el laboratorio
+        run: |
+          git config --global user.name "Feel Lab Bot"
+          git config --global user.email "bot@feel.app"
+          git add data.json
+          git commit -m "Registro de autoconocimiento: ${{ github.event.client_payload.date }}"
+          git push
