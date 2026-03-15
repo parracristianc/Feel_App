@@ -1,0 +1,170 @@
+:root {
+    --bg-main: #f0f4f8;
+    --glass-bg: rgba(255, 255, 255, 0.25);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --text-slate: #2d3748;
+    --text-guide: #a0aec0;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-slate);
+    overflow: hidden;
+}
+
+#app {
+    display: flex;
+    height: 100vh;
+}
+
+/* --- ESTANTE --- */
+#shelf {
+    width: 140px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    gap: 15px;
+}
+
+#logo {
+    font-size: 28px;
+    font-weight: 900;
+    color: #3b82f6;
+    margin-bottom: 20px;
+    letter-spacing: -1.5px;
+}
+
+/* --- ESFERAS 3D --- */
+.sphere {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: grab;
+    box-shadow: inset -4px -4px 8px rgba(0, 0, 0, 0.1),
+        inset 4px 4px 8px rgba(255, 255, 255, 0.4),
+        0 6px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s;
+}
+
+.sphere.used {
+    opacity: 0.15;
+    cursor: not-allowed;
+    filter: grayscale(1);
+}
+
+/* --- TUBO DE ENSAYO (GLASSMORFISM) --- */
+#lab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.experiment-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.guide-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    color: var(--text-guide);
+}
+
+#test-tube {
+    width: 120px;
+    height: 420px;
+    margin: 15px 0;
+    border: 4px solid var(--glass-border);
+    border-top: none;
+    border-bottom-left-radius: 60px;
+    border-bottom-right-radius: 60px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+.glass-glare {
+    position: absolute;
+    top: 0;
+    left: 15px;
+    width: 8px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+/* --- LÍQUIDO SEGMENTADO --- */
+#liquid-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.liquid-segment {
+    width: 100%;
+    height: 52.5px;
+    /* 420px / 8 */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fill-up 0.5s ease-out;
+}
+
+@keyframes fill-up {
+    from {
+        height: 0;
+        opacity: 0;
+    }
+
+    to {
+        height: 52.5px;
+        opacity: 1;
+    }
+}
+
+/* --- UI COMPONENTS --- */
+#tooltip {
+    position: fixed;
+    background: #2d3748;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+#btn-seal {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    padding: 15px 30px;
+    border-radius: 50px;
+    border: none;
+    background: white;
+    font-weight: 700;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
